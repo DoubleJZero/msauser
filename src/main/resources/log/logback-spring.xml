@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds">
+
+    <!-- spring property  -->
+    <springProperty name="SERVICE_NAME" source="spring.application.name"/>
+    <!-- spring property  -->
+
+    <!-- appender -->
+    <!-- console appender -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%date{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%-5level] %logger{26} [%file:%line] : %msg%n%ex{full}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- logger -->
+    <logger name="msauser"              level="DEBUG" />
+
+    <logger name="jdbc.sqlonly"        level="DEBUG" />
+    <logger name="jdbc.audit"          level="ERROR" />
+    <logger name="jdbc.connection"     level="ERROR" />
+    <logger name="jdbc.sqltiming"      level="ERROR" />
+    <logger name="jdbc.resultset"      level="ERROR" />
+    <logger name="jdbc.resultsettable" level="ERROR" />
+    <logger name="org.hibernate"       level="ERROR" />
+
+    <logger name="org.springframework"          level="INFO" />
+    <logger name="org.springframework.security" level="DEBUG" />
+
+    <logger name="org" level="ERROR" />
+    <logger name="io" level="ERROR" />
+    <logger name="com" level="ERROR" />
+
+
+    <root level="DEBUG">
+        <appender-ref ref="CONSOLE" />
+    </root>
+    <!-- logger -->
+
+</configuration>
