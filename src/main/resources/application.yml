@@ -11,6 +11,8 @@ spring:
     driver-class-name: org.mariadb.jdbc.Driver
     username: jandb
     password: jandb
+  config:
+    import: "optional:configserver:"
 
 logging:
   config: classpath:log/logback-spring.xml
@@ -25,3 +27,8 @@ eureka:
     fetch-registry: true
     serviceUrl:
       defaultZone: http://localhost:8761/eureka
+
+token:
+  access-expired-time: 1800000
+  refresh-expired-time: 3600000
+  secret: s1kfktAkfTkal4Ebdrbrdpekfadktjfhtkaktel3dks9lgkfTpdlfjswjscifhghfQodltu7eh

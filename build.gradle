@@ -9,15 +9,19 @@ plugins {
 group = 'kr.co.jandb'
 version = '0.0.1-SNAPSHOT'
 
-//sourceCompatibility = '11'
-//targetCompatibility = '11'
+sourceCompatibility = '11'
+targetCompatibility = '11'
 
 repositories {
 	mavenCentral()
+	maven{ url 'https://jitpack.io' }
 }
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
+
+	//custom core 추가
+	implementation 'com.github.DoubleJZero:msacore:0.1.5'
 
 	//querydsl 추가
 	implementation 'com.querydsl:querydsl-jpa'
@@ -57,6 +61,13 @@ dependencies {
 	runtimeOnly 'com.h2database:h2'
 	//Lombok
 	compileOnly 'org.projectlombok:lombok'
+
+	//spring security, jwt
+	implementation 'org.springframework.cloud:spring-cloud-starter-config'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+	implementation 'io.jsonwebtoken:jjwt-impl:0.11.2'
+	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.2'
 
 	annotationProcessor 'org.projectlombok:lombok'
 
