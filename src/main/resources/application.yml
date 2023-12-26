@@ -32,3 +32,11 @@ token:
   access-expired-time: 1800000
   refresh-expired-time: 3600000
   secret: s1kfktAkfTkal4Ebdrbrdpekfadktjfhtkaktel3dks9lgkfTpdlfjswjscifhghfQodltu7eh
+
+cust.security:
+  ignore:
+    path:
+      - /favicon.ico
+      - /error
+    resource:
+      - exe

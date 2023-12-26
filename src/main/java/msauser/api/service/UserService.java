@@ -7,6 +7,7 @@ import msauser.api.util.CommonUtils;
 import msauser.data.entity.TbUserInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import msauser.api.feign.BoardFeignClient;
@@ -35,6 +36,8 @@ public class UserService {
 
     private final BoardFeignClient boardFeignClient;
 
+    private final PasswordEncoder bCryptPasswordEncoder;
+
     /**
      * 사용자 목록 조회
      * @return 사용자목록
@@ -51,14 +54,14 @@ public class UserService {
     public void saveUser(UserInfoDto userInfoDto){
         Optional.ofNullable(userRepository.findByUserId(userInfoDto.getUserId()))
                 .ifPresentOrElse(e -> {
-                    e.setUserPw(CommonUtils.getSha256Encrypt(userInfoDto.getUserPw()));
+                    e.setUserPw(bCryptPasswordEncoder.encode(userInfoDto.getUserPw()));
                     e.setUserNm(userInfoDto.getUserNm());
                     e.setUserBirth(userInfoDto.getUserBirth());
                     e.setUpdtId(userInfoDto.getUserId());
                     userRepository.saveAndFlush(e);
                 }, ()->{
                     TbUserInfo entity =  userInfoDto.toEntity();
-                    entity.setUserPw(CommonUtils.getSha256Encrypt(entity.getUserPw()));
+                    entity.setUserPw(bCryptPasswordEncoder.encode(entity.getUserPw()));
                     entity.setRgstId("system");
                     entity.setUpdtId("system");
                     userRepository.saveAndFlush(entity);
@@ -70,7 +73,7 @@ public class UserService {
      * @param userInfoDto 사용자정보DTO
      */
     public String checkUser(UserInfoDto userInfoDto){
-        return Optional.ofNullable(userRepository.findByUserIdAndUserPw(userInfoDto.getUserId(), CommonUtils.getSha256Encrypt(userInfoDto.getUserPw()))).isPresent() ? "Y" : "N";
+        return Optional.ofNullable(userRepository.findByUserIdAndUserPw(userInfoDto.getUserId(), bCryptPasswordEncoder.encode(userInfoDto.getUserPw()))).isPresent() ? "Y" : "N";
     }
 
     /**

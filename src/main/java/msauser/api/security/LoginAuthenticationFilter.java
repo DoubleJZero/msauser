@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -37,13 +38,20 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
  * @author JandB
  * @since 1.0
  */
-@RequiredArgsConstructor
 @Slf4j
 public class LoginAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
     private final CookieProvider cookieProvider;
+
+    public LoginAuthenticationFilter(AuthenticationManager authenticationManage, JwtTokenProvider jwtTokenProvider, CookieProvider cookieProvider){
+        this.authenticationManager = authenticationManage;
+        this.jwtTokenProvider = jwtTokenProvider;
+        this.cookieProvider = cookieProvider;
+
+        setFilterProcessesUrl("/login");
+    }
 
     // login 리퀘스트 패스로 오는 요청을 판단
     @Override
@@ -54,7 +62,7 @@ public class LoginAuthenticationFilter extends UsernamePasswordAuthenticationFil
             LoginDto credential = new ObjectMapper().readValue(request.getInputStream(), LoginDto.class);
 
             authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(credential.getUserId(), CommonUtils.getSha256Encrypt(credential.getUserPw()))
+                    new UsernamePasswordAuthenticationToken(credential.getUserId(), credential.getUserPw())
             );
         } catch (IOException e) {
             log.error(e.getMessage());
@@ -87,6 +95,9 @@ public class LoginAuthenticationFilter extends UsernamePasswordAuthenticationFil
 
         response.setContentType(APPLICATION_JSON_VALUE);
         response.addCookie(cookie);
+
+        // header set
+        response.setHeader("Authorization", "Bearer "+accessToken);
 
         // body 설정
         Map<String, Object> tokens = Map.of(
