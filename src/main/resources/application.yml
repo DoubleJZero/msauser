@@ -6,37 +6,26 @@ server:
 spring:
   application:
     name: user-service
-  datasource:
-    url: jdbc:mariadb://127.0.0.1:3306/jandb
-    driver-class-name: org.mariadb.jdbc.Driver
-    username: jandb
-    password: jandb
+
+---
+spring:
   config:
-    import: "optional:configserver:"
+    import: "optional:configserver:http://127.0.0.1:8888"
+  cloud:
+    config:
+      fail-fast: true #클라이언트 서버를 시작할 때 Config 서버에서 정보를 로드할 수 없을 경우에는 서버를 실행하지 않겠다는 설정
+      name: msaConfigFile
 
-logging:
-  config: classpath:log/logback-spring.xml
+---
+# actuator를 이용하여 서버 재시작 없이 변경내용 반영 가능하게 함.
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh
 
-eureka:
-  instance:
-    prefer-ip-address: true
-  client:
-    registryFetchIntervalSeconds: 5
-    disable-delta: true
-    register-with-eureka: true
-    fetch-registry: true
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka
-
+---
 token:
   access-expired-time: 1800000
   refresh-expired-time: 3600000
   secret: s1kfktAkfTkal4Ebdrbrdpekfadktjfhtkaktel3dks9lgkfTpdlfjswjscifhghfQodltu7eh
-
-cust.security:
-  ignore:
-    path:
-      - /favicon.ico
-      - /error
-    resource:
-      - exe
