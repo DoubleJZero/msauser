@@ -84,4 +84,8 @@ public class JwtTokenProvider {
         return getClaimsFromJwtToken(token).getExpiration();
     }
 
+    public String getClaimSubject(String token){
+        return getClaimsFromJwtToken(token).getSubject();
+    }
+
 }

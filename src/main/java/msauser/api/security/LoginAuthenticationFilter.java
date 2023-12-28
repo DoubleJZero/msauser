@@ -83,7 +83,6 @@ public class LoginAuthenticationFilter extends UsernamePasswordAuthenticationFil
                 .collect(Collectors.toList());
 
         String userId = user.getUsername();
-
         String accessToken = jwtTokenProvider.createJwtAccessToken(userId, request.getRequestURI(), roles);
         Date expiredTime = jwtTokenProvider.getExpiredTime(accessToken);
         String refreshToken = jwtTokenProvider.createJwtRefreshToken();

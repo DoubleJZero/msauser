@@ -89,4 +89,11 @@ public class UserController {
     public BoardDto getBoardDetail(@RequestBody BoardDto boardDto){
         return userService.getBoardDetail(boardDto.getBoardId());
     }
+
+    @GetMapping("/kafkaTest")
+    public void kafkaTest(@RequestParam String rgstId){
+        BoardDto boardDto = new BoardDto();
+        boardDto.setRgstId(rgstId);
+        userService.kafkaTest(boardDto);
+    }
 }

@@ -29,3 +29,8 @@ token:
   access-expired-time: 1800000
   refresh-expired-time: 3600000
   secret: s1kfktAkfTkal4Ebdrbrdpekfadktjfhtkaktel3dks9lgkfTpdlfjswjscifhghfQodltu7eh
+
+kafka:
+  consumer:
+    group-id: first-group
+  bootstrap-servers: 127.0.0.1:9092

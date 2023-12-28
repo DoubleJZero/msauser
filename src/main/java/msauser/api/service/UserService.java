@@ -2,8 +2,9 @@ package msauser.api.service;
 
 import msauser.api.dto.UserInfoDto;
 import msauser.api.feign.BoardDto;
+import msauser.api.kafka.KafkaMessageProducer;
+import msauser.api.kafka.Topic;
 import msauser.api.repository.UserRepository;
-import msauser.api.util.CommonUtils;
 import msauser.data.entity.TbUserInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +38,8 @@ public class UserService {
     private final BoardFeignClient boardFeignClient;
 
     private final PasswordEncoder bCryptPasswordEncoder;
+
+    private final KafkaMessageProducer kafkaMessageProducer;
 
     /**
      * 사용자 목록 조회
@@ -108,5 +111,9 @@ public class UserService {
      */
     public BoardDto getBoardDetail(Long boardId){
         return boardFeignClient.getBoardDetail(boardId);
+    }
+
+    public void kafkaTest(BoardDto boardDto){
+        kafkaMessageProducer.send(Topic.USER_TOPIC.getName(), boardDto);
     }
 }
