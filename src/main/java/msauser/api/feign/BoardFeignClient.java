@@ -20,7 +20,7 @@ public interface BoardFeignClient {
      * 게시판 상세 조회 other service feign call
      * @return 게시판 목록
      */
-    @RequestMapping(method= RequestMethod.GET, value="/v1/feign/getBoardDetail/{boardId}")
+    @RequestMapping(method= RequestMethod.GET, value="/v1/feign/getBoardDetail/{boardId}", produces = "application/json")
     BoardDto getBoardDetail(@PathVariable("boardId") Long boardId);
 
     /**

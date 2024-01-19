@@ -86,8 +86,8 @@ public class UserController {
      * @return 게시판 정보
      */
     @GetMapping("/getBoardDetail")
-    public BoardDto getBoardDetail(@RequestBody BoardDto boardDto){
-        return userService.getBoardDetail(boardDto.getBoardId());
+    public BoardDto getBoardDetail(@RequestParam Long boardId){
+        return userService.getBoardDetail(boardId);
     }
 
     @GetMapping("/kafkaTest")
