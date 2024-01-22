@@ -34,3 +34,24 @@ kafka:
   consumer:
     group-id: first-group
   bootstrap-servers: 127.0.0.1:9092
+
+---
+spring:
+  redis:
+    database: 0
+    port: 6379
+    host: 172.17.0.1
+    password: fpeltm12!
+
+---
+spring:
+  redis:
+    pool:
+      max:
+        total: 60
+        idle: 60
+      min:
+        idle: 10
+    max:
+      wait:
+        milli: 2000

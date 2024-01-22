@@ -8,6 +8,7 @@ import msauser.api.repository.UserRepository;
 import msauser.data.entity.TbUserInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,6 +41,8 @@ public class UserService {
     private final PasswordEncoder bCryptPasswordEncoder;
 
     private final KafkaMessageProducer kafkaMessageProducer;
+
+    private final RedisTemplate<String, String> redisTemplate;
 
     /**
      * 사용자 목록 조회
@@ -113,7 +116,26 @@ public class UserService {
         return boardFeignClient.getBoardDetail(boardId);
     }
 
+    /**
+     * kafka test
+     * @param boardDto 게시판
+     */
     public void kafkaTest(BoardDto boardDto){
         kafkaMessageProducer.send(Topic.USER_TOPIC.getName(), boardDto);
+    }
+
+    /**
+     * get redis test
+     * @return String
+     */
+    public String getRedisTest(){
+        return redisTemplate.opsForValue().get("redisTestValue");
+    }
+
+    /**
+     * set redis test
+     */
+    public void saveRedisTest(){
+        redisTemplate.opsForValue().set("redisTestValue", "hello redis!");
     }
 }

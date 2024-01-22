@@ -96,4 +96,16 @@ public class UserController {
         boardDto.setRgstId(rgstId);
         userService.kafkaTest(boardDto);
     }
+
+    @GetMapping("/getRedisTest")
+    public String getRedisTest(){
+
+        return userService.getRedisTest();
+    }
+
+    @PostMapping("/saveRedisTest")
+    public void saveRedisTest(){
+
+        userService.saveRedisTest();
+    }
 }
