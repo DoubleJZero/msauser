@@ -12,6 +12,7 @@ import java.security.Key;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * JwtTokenProvider
@@ -45,7 +46,7 @@ public class JwtTokenProvider {
 
     public String createJwtAccessToken(String userId, String uri, List<String> roles) {
         Claims claims = Jwts.claims().setSubject(userId);
-        claims.put("roles", roles);
+        claims.put("roles", String.join(",", roles));
 
         return Jwts.builder()
                 .addClaims(claims)
